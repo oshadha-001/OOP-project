@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Form in HTML and CSS</title>
+  <link rel="stylesheet" href="stylesheet.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+<video autoplay muted loop id="video-background">
+  <source src="backgroundvideo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+<div class="wrapper">
+  <form action="">
+    <h1>Login</h1>
+
+    <div class="input-box">
+      <input type="text" placeholder="Enter Username" required>
+      <i class='bx bxs-user'></i>
+    </div>
+
+    <div class="input-box">
+      <input type="password" placeholder="Enter Password" required>
+      <i class='bx bxs-lock-alt'></i>
+    </div>
+
+    <div class="remember-forgot">
+      <input type="checkbox" id="remember-me">
+      <label for="remember-me">Remember me   </label>
+      <a href="#"> Forgot password?</a>
+    </div>
+
+    <button type="submit" class="btn">Login</button>
+
+    <div class="register-link">
+      <p>Don't have an account? <a href="#">Register</a></p>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
