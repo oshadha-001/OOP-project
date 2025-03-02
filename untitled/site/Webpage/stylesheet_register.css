@@ -89,17 +89,17 @@ body {
 .btn {
   width: 100%;
   height: 50px;
-  background: #fff;
+  background: #00c2ff;
   border: none;
   outline: none;
   border-radius: 25px;
   font-size: 1.1em;
-  color: #000;
+  color: #ffffff;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
 .btn:hover {
-  background: #ddd;
+  background: #0066ff;
 }
