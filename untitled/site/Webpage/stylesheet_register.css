@@ -78,7 +78,7 @@ body {
 }
 
 .remember-forgot a, .login-link a {
-  color: #fff;
+  color: #0095ff;
   text-decoration: none;
 }
 
@@ -102,4 +102,8 @@ body {
 
 .btn:hover {
   background: #0066ff;
+}
+
+.login-link {
+  color: #ceefe7;
 }
