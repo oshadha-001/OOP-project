@@ -13,33 +13,61 @@
 </video>
 
 <div class="wrapper">
-  <form action="">
+  <form action="login.php" method="POST" onsubmit="return validateForm()">
     <h1>Login</h1>
 
     <div class="input-box">
-      <input type="text" placeholder="Enter Username" required>
+      <input type="text" name="username" placeholder="Enter Username" required>
       <i class='bx bxs-user'></i>
     </div>
 
     <div class="input-box">
-      <input type="password" placeholder="Enter Password" required>
+      <input type="password" name="password" placeholder="Enter Password" required>
       <i class='bx bxs-lock-alt'></i>
     </div>
 
     <div class="remember-forgot">
-      <input type="checkbox" id="remember-me">
-      <label for="remember-me">Remember me   </label>
-      <a href="forgot_password.html"> Forgot password?</a>
+      <input type="checkbox" id="remember-me" name="remember-me">
+      <label for="remember-me">Remember me</label>
+      <a href="forgot_password.html">Forgot password?</a>
     </div>
 
     <button type="submit" class="btn">Login</button>
 
+    <div class="social-login">
+      <p>Or login with:</p>
+      <div class="social-buttons">
+        <button type="button" class="social-btn facebook" onclick="window.location.href='https://www.facebook.com/'">
+          <i class='bx bxl-facebook'></i> Facebook
+        </button>
+        <button type="button" class="social-btn google" onclick="window.location.href='https://accounts.google.com/'">
+          <i class='bx bxl-google'></i> Google
+        </button>
+      </div>
+    </div>
+
     <div class="register-link">
-      <script src="script_register.js"></script>
       <p>Don't have an account? <a href="register.html">Register</a></p>
     </div>
   </form>
 </div>
+
+<script>
+  function validateForm() {
+    // Basic validation example
+    const username = document.querySelector('input[name="username"]').value;
+    const password = document.querySelector('input[name="password"]').value;
+
+    if (username === "" || password === "") {
+      alert("Please fill in all fields.");
+      return false;
+    }
+
+    // Simulate a successful login
+    window.location.href = "firstpage.html";
+    return false; // Prevent form submission for this example
+  }
+</script>
 
 </body>
 </html>

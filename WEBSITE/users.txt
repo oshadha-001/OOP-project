@@ -1,0 +1,3 @@
+john_doe|john@example.com|$2y$10$examplehashedpassword1234567890
+jane_doe|jane@example.com|$2y$10$examplehashedpassword0987654321
+oshadhatha|oshadha@gmail.com|$2y$10$somerandomcharacters1234567890
