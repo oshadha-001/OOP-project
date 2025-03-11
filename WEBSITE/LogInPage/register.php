@@ -1,44 +1,22 @@
 <?php
-// Path to the .txt file
-$filePath = 'users.txt';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get form data
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $confirmPassword = $_POST['confirm_password'];
+    $confirm_password = $_POST['confirm_password'];
 
     // Validate passwords match
-    if ($password !== $confirmPassword) {
+    if ($password !== $confirm_password) {
         die("Passwords do not match.");
     }
 
-    // Check if the username or email already exists
-    if (file_exists($filePath)) {
-        $users = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        foreach ($users as $user) {
-            list($storedUsername, $storedEmail) = explode('|', $user);
-            if ($storedUsername === $username) {
-                die("Username already exists.");
-            }
-            if ($storedEmail === $email) {
-                die("Email already exists.");
-            }
-        }
-    }
+    // Hash the password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Hash the password for security
-    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    // Save user data to text file
+    $user_data = "$username,$email,$hashed_password\n";
+    file_put_contents('users.txt', $user_data, FILE_APPEND);
 
-    // Prepare the user data
-    $userData = "$username|$email|$hashedPassword\n";
-
-    // Append the user data to the .txt file
-    if (file_put_contents($filePath, $userData, FILE_APPEND | LOCK_EX)) {
-        echo "Registration successful! <a href='login.html'>Login here</a>";
-    } else {
-        echo "Error saving user data.";
-    }
+    echo "Registration successful!";
 }
 ?>

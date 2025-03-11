@@ -1,38 +1,20 @@
 <?php
-// Path to the .txt file
-$filePath = 'users.txt';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get form data
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Check if the .txt file exists
-    if (file_exists($filePath)) {
-        // Read the .txt file
-        $users = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    // Read user data from text file
+    $users = file('users.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-        // Loop through each user
-        foreach ($users as $user) {
-            list($storedUsername, $storedEmail, $storedPassword) = explode('|', $user);
+    foreach ($users as $user) {
+        list($stored_username, $stored_email, $stored_password) = explode(',', $user);
 
-            // Check if the username matches
-            if ($storedUsername === $username) {
-                // Verify the password
-                if (password_verify($password, $storedPassword)) {
-                    // Redirect to firstpage.html
-                    header("Location: firstpage.html");
-                    exit;
-                } else {
-                    die("Incorrect password.");
-                }
-            }
+        if ($username === $stored_username && password_verify($password, $stored_password)) {
+            echo "Login successful!";
+            exit;
         }
-
-        // If the username is not found
-        die("Username not found.");
-    } else {
-        die("No users registered.");
     }
+
+    echo "Invalid username or password.";
 }
 ?>

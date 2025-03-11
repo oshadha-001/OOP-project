@@ -1,52 +1,38 @@
 <?php
-// File where user data is stored
-$usersFile = 'users.txt';
-// File where reset tokens are stored
-$tokensFile = 'tokens.txt';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $token = $_POST['token'];
+    $new_password = $_POST['new_password'];
+    $confirm_password = $_POST['confirm_password'];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $token = $_POST['token'];
-  $newPassword = $_POST['new_password'];
-  $confirmPassword = $_POST['confirm_password'];
+    // Validate passwords match
+    if ($new_password !== $confirm_password) {
+        die("Passwords do not match.");
+    }
 
-  if ($newPassword === $confirmPassword) {
-    // Read tokens file
-    if (file_exists($tokensFile)) {
-      $tokens = file($tokensFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    // Read tokens from text file
+    $tokens = file('tokens.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-      foreach ($tokens as $line) {
-        list($storedEmail, $storedToken) = explode('|', $line);
-        if ($storedToken === $token) {
-          // Token is valid, update the password
-          $users = file($usersFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-          $updatedUsers = [];
+    foreach ($tokens as $token_entry) {
+        list($stored_email, $stored_token) = explode(',', $token_entry);
 
-          foreach ($users as $user) {
-            list($email, $password) = explode('|', $user);
-            if ($email === $storedEmail) {
-              // Update the password
-              $updatedUsers[] = "$email|$newPassword";
-            } else {
-              $updatedUsers[] = $user;
+        if ($token === $stored_token) {
+            // Update the user's password in the users.txt file
+            $users = file('users.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+            foreach ($users as $index => $user) {
+                list($stored_username, $stored_email, $stored_password) = explode(',', $user);
+
+                if ($stored_email === $email) {
+                    $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+                    $users[$index] = "$stored_username,$stored_email,$hashed_password";
+                    file_put_contents('users.txt', implode("\n", $users));
+                    echo "Password reset successful!";
+                    exit;
+                }
             }
-          }
-
-          // Save updated users back to the file
-          file_put_contents($usersFile, implode("\n", $updatedUsers));
-
-          // Remove the used token
-          $updatedTokens = array_diff($tokens, ["$storedEmail|$storedToken"]);
-          file_put_contents($tokensFile, implode("\n", $updatedTokens));
-
-          echo "Password reset successfully.";
-          exit;
         }
-      }
     }
 
     echo "Invalid or expired token.";
-  } else {
-    echo "Passwords do not match.";
-  }
 }
 ?>

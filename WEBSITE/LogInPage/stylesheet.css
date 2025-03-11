@@ -147,3 +147,10 @@ body {
 .btn.google:hover {
   background-color: rgba(194, 51, 33, 0.98);
 }
+
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+}
