@@ -2,9 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="admin.css">
 </head>
 <body>
-<p>ukagfuigfjgfjauyfuyatcuyafcuyafvc</p>
+<!-- Header Section -->
+<header>
+    <div class="header-content">
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="#orders">Manage Orders</a></li>
+                <li><a href="#services">Manage Services</a></li>
+                <li><a href="#users">Manage Users</a></li>
+                <li><a href="../LoginPage/login.html" class="logout">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main>
+    <!-- Orders Section -->
+    <section id="orders" class="dashboard-section">
+        <h2>Manage Orders</h2>
+        <p>View and process customer orders efficiently.</p>
+        <div class="action-buttons">
+            <button class="btn">View Orders</button>
+            <button class="btn">Process Orders</button>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="dashboard-section">
+        <h2>Manage Services</h2>
+        <p>Add, edit, or remove wedding services with ease.</p>
+        <div class="action-buttons">
+            <button class="btn">Add Service</button>
+            <button class="btn">Edit Service</button>
+            <button class="btn btn-danger">Delete Service</button>
+        </div>
+    </section>
+
+    <!-- Users Section -->
+    <section id="users" class="dashboard-section">
+        <h2>Manage Users</h2>
+        <p>View and manage registered users securely.</p>
+        <div class="action-buttons">
+            <button class="btn">View Users</button>
+            <button class="btn btn-danger">Delete User</button>
+        </div>
+    </section>
+</main>
+
+<!-- Footer Section -->
+<footer>
+    <p>&copy; 2025 Wedding Services Admin Panel. All rights reserved.</p>
+</footer>
 </body>
 </html>
