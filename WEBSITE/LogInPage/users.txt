@@ -1,3 +1,0 @@
-username,email,password
-john_doe,john@example.com,hashed_password123
-jane_doe,jane@example.com,hashed_password456

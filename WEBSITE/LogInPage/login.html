@@ -13,7 +13,7 @@
 </video>
 
 <div class="wrapper">
-  <form action="login.php" method="POST" onsubmit="return validateForm()">
+  <form action="login.php" method="POST" onsubmit="return validateUserLogin()">
     <h1>Login</h1>
 
     <div class="input-box">
@@ -38,7 +38,7 @@
       <p>Or login with:</p>
       <div class="social-buttons">
         <button type="button" class="social-btn facebook" onclick="window.location.href='https://www.facebook.com/'">
-          <i class='bx bxl-facebook'></i> Facebook
+          <i class='bx-fw bx bxl-facebook-square'></i> Facebook
         </button>
         <button type="button" class="social-btn google" onclick="window.location.href='https://accounts.google.com/'">
           <i class='bx bxl-google'></i> Google
@@ -52,20 +52,34 @@
   </form>
 </div>
 
+<!-- Admin Login Button -->
+<button class="admin_btn" onclick="validateAdminLogin()">
+  Admin <i class='bx bx-right-arrow bx-flashing'></i>
+</button>
+
 <script>
-  function validateForm() {
-    // Basic validation example
+  function validateUserLogin() {
     const username = document.querySelector('input[name="username"]').value;
     const password = document.querySelector('input[name="password"]').value;
 
     if (username === "" || password === "") {
       alert("Please fill in all fields.");
       return false;
+    } else {
+      window.location.href = "../FrontPage/firstpage.html";
+      return false; // Prevent form submission
     }
+  }
 
-    // Simulate a successful login
-    window.location.href = "../FrontPage/firstpage.html";
-    return false; // Prevent form submission for this example
+  function validateAdminLogin() {
+    const adminUsername = prompt("Enter Admin Username:");
+    const adminPassword = prompt("Enter Admin Password:");
+
+    if (adminUsername === "admin" && adminPassword === "admin123") {
+      window.location.href = "../Admin/Admin.html";
+    } else {
+      alert("Invalid Admin Credentials!");
+    }
   }
 </script>
 
