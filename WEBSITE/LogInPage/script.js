@@ -1,3 +1,4 @@
+// Add an event listener to the form for the 'submit' event
 document.getElementById('registerForm').addEventListener('submit', async function (event) {
     event.preventDefault(); // Prevent the form from submitting normally
 
@@ -17,26 +18,19 @@ document.getElementById('registerForm').addEventListener('submit', async functio
     const userData = `Username: ${username}\nEmail: ${email}\nPassword: ${password}\n\n`;
 
     try {
-        // Request permission to read/write a file
+        // Request permission to save a file
         const fileHandle = await window.showSaveFilePicker({
-            suggestedName: 'user_registration.txt',
+            suggestedName: 'user_registration.txt', // Default file name
             types: [{
-                description: 'Text Files',
-                accept: { 'text/plain': ['.txt'] },
+                description: 'Text Files', // File type description
+                accept: { 'text/plain': ['.txt'] }, // Accept only .txt files
             }],
         });
 
-        // Check if the file already exists
-        let file = await fileHandle.getFile();
-        let contents = await file.text();
-
-        // Append new user data to the existing content
-        const updatedContents = contents + userData;
-
-        // Write the updated content back to the file
+        // Write the new user data to the file (overwriting existing content)
         const writable = await fileHandle.createWritable();
-        await writable.write(updatedContents);
-        await writable.close();
+        await writable.write(userData); // Write the new data
+        await writable.close(); // Close the writable stream
 
         alert('Registration successful! Data saved to user_registration.txt.');
     } catch (error) {
@@ -44,6 +38,6 @@ document.getElementById('registerForm').addEventListener('submit', async functio
         alert('Error saving file. Please try again.');
     }
 
-    // Optionally, reset the form after saving
+    // Reset the form after saving
     this.reset();
 });
