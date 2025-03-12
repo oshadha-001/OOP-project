@@ -2,10 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>First Page</title>
+    <title>Wedding Services</title>
     <link rel="stylesheet" href="firstpage.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        #video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        header {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            color: rgb(255, 255, 255);
+            padding: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .grid-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .grid-item p {
+            font-size: 1.2em;
+            font-weight: bold;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
 
@@ -16,15 +74,34 @@
 
 <header>
     <h1>Wedding Services</h1>
-    <nav>
-        <button class="btn">Rent wedding dress</button>
-        <button class="btn">Rent wedding car</button>
-        <button class="btn">Cake order</button>
-        <button class="btn">Catering service</button>
-        <button class="btn">Flower bouquet order</button>
-        <button class="btn">Wedding hall reservation</button>
-    </nav>
 </header>
+
+<div class="grid-container">
+    <div class="grid-item">
+        <img src="/WEBSITE/FrontPage/img/Wedding Attire.jpg" alt="Wedding Attire">
+        <p>Wedding Attire</p>
+    </div>
+    <div class="grid-item">
+        <img src="/WEBSITE/FrontPage/img/Rent wedding car.jpg" alt="Rent wedding car">
+        <p>Rent wedding car</p>
+    </div>
+    <div class="grid-item">
+        <img src="/WEBSITE/FrontPage/img/Cakes-&-Chocolate.jpg" alt="cake order">
+        <p>Cake order</p>
+    </div>
+    <div class="grid-item">
+        <img src="/WEBSITE/FrontPage/img/Wedding-Foods.jpg" alt="Catering Service">
+        <p>Catering Service</p>
+    </div>
+    <div class="grid-item">
+        <img src="/WEBSITE/FrontPage/img/Wedding-Photo-&-Videography.jpg" alt="Photography & Videography">
+        <p>Photography & Videography</p>
+    </div>
+    <div class="grid-item">
+        <img src="/WEBSITE/FrontPage/img/Marque-and-Furniture.jpg" alt="Wedding hall reservation">
+        <p>Wedding hall reservation </p>
+    </div>
+</div>
 
 </body>
 </html>
