@@ -13,16 +13,16 @@
 </video>
 
 <div class="wrapper">
-  <form action="login.php" method="POST" onsubmit="return validateUserLogin()">
+  <form onsubmit="return validateUserLogin()">
     <h1>Login</h1>
 
     <div class="input-box">
-      <input type="text" name="username" placeholder="Enter Username" required>
+      <input type="text" id="username" name="username" placeholder="Enter Username" required>
       <i class='bx bxs-user'></i>
     </div>
 
     <div class="input-box">
-      <input type="password" name="password" placeholder="Enter Password" required>
+      <input type="password" id="password" name="password" placeholder="Enter Password" required>
       <i class='bx bxs-lock-alt'></i>
     </div>
 
@@ -34,51 +34,24 @@
 
     <button type="submit" class="btn">Login</button>
 
-    <div class="social-login">
-      <p>Or login with:</p>
-      <div class="social-buttons">
-        <button type="button" class="social-btn facebook" onclick="window.location.href='https://www.facebook.com/'">
-          <i class='bx-fw bx bxl-facebook-square'></i> Facebook
-        </button>
-        <button type="button" class="social-btn google" onclick="window.location.href='https://accounts.google.com/'">
-          <i class='bx bxl-google'></i> Google
-        </button>
-      </div>
-    </div>
-
     <div class="register-link">
       <p>Don't have an account? <a href="register.html">Register</a></p>
     </div>
   </form>
 </div>
 
-<!-- Admin Login Button -->
-<button class="admin_btn" onclick="validateAdminLogin()">
-  Admin <i class='bx bx-right-arrow bx-flashing'></i>
-</button>
-
 <script>
   function validateUserLogin() {
-    const username = document.querySelector('input[name="username"]').value;
-    const password = document.querySelector('input[name="password"]').value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
     if (username === "" || password === "") {
       alert("Please fill in all fields.");
       return false;
     } else {
-      window.location.href = "../FrontPage/firstpage.html";
+      // Redirect to firstpage.html and pass username in URL (relative path)
+      window.location.href = "../FrontPage/firstpage.html?username=" + encodeURIComponent(username);
       return false; // Prevent form submission
-    }
-  }
-
-  function validateAdminLogin() {
-    const adminUsername = prompt("Enter Admin Username:");
-    const adminPassword = prompt("Enter Admin Password:");
-
-    if (adminUsername === "oshadha" && adminPassword === "oshadha123") {
-      window.location.href = "../Admin/Admin.html";
-    } else {
-      alert("Invalid Admin Credentials!");
     }
   }
 </script>
