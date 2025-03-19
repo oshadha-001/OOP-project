@@ -1,36 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Wedding Dresses Store</title>
-  <link rel="stylesheet" href="WeddingDress.CSS"> 
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Vendor Attire Store</title>
+  <link rel="stylesheet" href="WeddingDress.css"> 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <style>
-    body { font-family: Arial, sans-serif; }
-    .container { width: 80%; margin: auto; }
-    .product { display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
-    .product img { width: 150px; height: auto; }
-    .product-info { flex-grow: 1; padding-left: 20px; }
-    table { width: 100%; margin-top: 20px; border-collapse: collapse; }
-    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-    button { padding: 5px 10px; margin: 5px; }
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: 80%;
+      margin: auto;
+    }
+
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+
+    button {
+      padding: 5px 10px;
+      margin: 5px;
+    }
+
+    .navbar {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 10px 20px;
+    }
+
+    .navbar-brand {
+      font-weight: bold;
+      font-size: 20px;
+    }
+
+    .dropdown:hover .dropdown-menu {
+      display: block;
+      margin-top: 0;
+    }
   </style>
 </head>
 <body>
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Wedding Vendor Attire Store</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button">
+              <button id="userButton" class="btn btn-light">Guest</button>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" href="/WEBSITE/LogInPage/register.html">Edit Profile</a></li>
+              <li><a class="dropdown-item" href="#">Settings & Privacy</a></li>
+              <li><a class="dropdown-item" href="#">Help & Support</a></li>
+              <li><a class="dropdown-item" href="/WEBSITE/LogInPage/login.html">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
 <div class="container">
-  <h1>Wedding Dresses</h1>
   <div>
+    <input type="text" id="vendor-name" placeholder="Vendor Name">
     <input type="text" id="dress-name" placeholder="Dress Name">
-    <input type="number" id="dress-price" placeholder="Price">
+    <input type="number" id="dress-price" placeholder="Price" min="0">
     <input type="url" id="dress-image" placeholder="Image URL">
     <button onclick="addDress()">Add Dress</button>
+    <select id="filter-vendor" onchange="filterByVendor()">
+      <option value="">All Vendors</option>
+    </select>
   </div>
   <table>
     <thead>
-    <tr>
-      <th>Image</th>
-      <th>Name</th>
-      <th>Price</th>
-      <th>Action</th>
-    </tr>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Vendor</th>
+        <th>Price <button onclick="sortByPrice()">Sort</button></th>
+        <th>Action</th>
+      </tr>
     </thead>
     <tbody id="product-table">
     </tbody>
@@ -38,119 +104,84 @@
 </div>
 
 <script>
-  class Product {
-    constructor(name, price, image) {
-      this.name = name;
-      this.price = price;
-      this.image = image;
-      this.next = null;
-    }
-  }
-
-  class LinkedList {
-    constructor() {
-      this.head = null;
-    }
-
-    add(name, price, image) {
-      let newNode = new Product(name, price, image);
-      if (!this.head) {
-        this.head = newNode;
-      } else {
-        let temp = this.head;
-        while (temp.next) {
-          temp = temp.next;
-        }
-        temp.next = newNode;
-      }
-    }
-
-    delete(name) {
-      if (!this.head) return;
-      if (this.head.name === name) {
-        this.head = this.head.next;
-        return;
-      }
-      let temp = this.head;
-      while (temp.next && temp.next.name !== name) {
-        temp = temp.next;
-      }
-      if (temp.next) {
-        temp.next = temp.next.next;
-      }
-    }
-
-    bubbleSort() {
-      if (!this.head) return;
-      let swapped;
-      do {
-        swapped = false;
-        let temp = this.head;
-        while (temp && temp.next) {
-          if (temp.price > temp.next.price) {
-            // Swap values instead of nodes
-            [temp.price, temp.next.price] = [temp.next.price, temp.price];
-            [temp.name, temp.next.name] = [temp.next.name, temp.name];
-            [temp.image, temp.next.image] = [temp.next.image, temp.image];
-            swapped = true;
-          }
-          temp = temp.next;
-        }
-      } while (swapped);
-    }
-
-    display() {
-      let temp = this.head;
-      let productTable = document.getElementById("product-table");
-      productTable.innerHTML = "";  // Clear table before updating
-      while (temp) {
-        let row = document.createElement("tr");
-        row.innerHTML = `
-          <td><img src="${temp.image}" width="50"></td>
-          <td>${temp.name}</td>
-          <td>$${temp.price.toFixed(2)}</td>
-          <td><button onclick="deleteDress('${temp.name}')">Delete</button></td>
-        `;
-        productTable.appendChild(row);
-        temp = temp.next;
-      }
-    }
-  }
-
-  let products = new LinkedList();
-  products.add("Blue By Enzoani", 40.99, "#");
-  products.add("Narine Wedding Dress", 50.99, "#");
-  products.add("Blue by Enzoani Katie", 60.99, "#");
-  products.add("Blue by Enzoani Olexa", 30.98, "#");
-  products.add("Susan Blue by Enzoani", 70.99, "#");
-
-  products.bubbleSort();
-  products.display();
+  let products = [];
 
   function addDress() {
+    let vendor = document.getElementById("vendor-name").value.trim();
     let name = document.getElementById("dress-name").value.trim();
     let price = parseFloat(document.getElementById("dress-price").value);
     let image = document.getElementById("dress-image").value.trim();
 
-    if (!name || isNaN(price) || price <= 0 || !image) {
+    if (!vendor || !name || isNaN(price) || price <= 0 || !image) {
       alert("Please enter valid details for the dress.");
       return;
     }
 
-    products.add(name, price, image);
-    products.bubbleSort();
-    products.display();
-
-    // Clear input fields after adding
+    products.push({ vendor, name, price, image });
+    updateVendorFilter();
+    displayProducts();
+    document.getElementById("vendor-name").value = "";
     document.getElementById("dress-name").value = "";
     document.getElementById("dress-price").value = "";
     document.getElementById("dress-image").value = "";
   }
 
+  function displayProducts() {
+    let productTable = document.getElementById("product-table");
+    productTable.innerHTML = "";
+    let selectedVendor = document.getElementById("filter-vendor").value;
+
+    products.filter(p => !selectedVendor || p.vendor === selectedVendor).forEach(product => {
+      let row = document.createElement("tr");
+      row.innerHTML = `
+        <td><img src="${product.image}" width="50"></td>
+        <td>${product.name}</td>
+        <td>${product.vendor}</td>
+        <td>$${product.price.toFixed(2)}</td>
+        <td><button onclick="deleteDress('${product.name}')">Delete</button></td>
+      `;
+      productTable.appendChild(row);
+    });
+  }
+
   function deleteDress(name) {
-    products.delete(name);
-    products.display();
+    products = products.filter(product => product.name !== name);
+    displayProducts();
+  }
+
+  function sortByPrice() {
+    products.sort((a, b) => a.price - b.price);
+    displayProducts();
+  }
+
+  function updateVendorFilter() {
+    let vendorFilter = document.getElementById("filter-vendor");
+    let vendors = [...new Set(products.map(p => p.vendor))];
+    vendorFilter.innerHTML = '<option value="">All Vendors</option>' + vendors.map(v => `<option value="${v}">${v}</option>`).join('');
+  }
+
+  function filterByVendor() {
+    displayProducts();
   }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+      const username = getQueryParam("username");
+      const userButton = document.getElementById("userButton");
+      
+      if (username && userButton) {
+          userButton.textContent = username;
+      }
+  });
+</script>
+
 </body>
 </html>
