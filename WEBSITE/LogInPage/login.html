@@ -2,18 +2,21 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login Form in HTML and CSS</title>
+  <title>Login Form</title>
   <link rel="stylesheet" href="stylesheet.css">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
+
+<!-- Background Video -->
 <video autoplay muted loop id="video-background">
   <source src="backgroundvideo.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
+<!-- Login Form -->
 <div class="wrapper">
-  <form action="login.php" method="POST" onsubmit="return validateUserLogin()">
+  <form onsubmit="return validateUserLogin()">
     <h1>Login</h1>
 
     <div class="input-box">
@@ -34,18 +37,6 @@
 
     <button type="submit" class="btn">Login</button>
 
-    <div class="social-login">
-      <p>Or login with:</p>
-      <div class="social-buttons">
-        <button type="button" class="social-btn facebook" onclick="window.location.href='https://www.facebook.com/'">
-          <i class='bx-fw bx bxl-facebook-square'></i> Facebook
-        </button>
-        <button type="button" class="social-btn google" onclick="window.location.href='https://accounts.google.com/'">
-          <i class='bx bxl-google'></i> Google
-        </button>
-      </div>
-    </div>
-
     <div class="register-link">
       <p>Don't have an account? <a href="register.html">Register</a></p>
     </div>
@@ -57,19 +48,29 @@
   Admin <i class='bx bx-right-arrow bx-flashing'></i>
 </button>
 
+<!-- JavaScript for Login Validation -->
 <script>
   function validateUserLogin() {
     const username = document.querySelector('input[name="username"]').value;
     const password = document.querySelector('input[name="password"]').value;
 
-    if (username === "" || password === "") {
-      alert("Please fill in all fields.");
+    // Get stored users from localStorage
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // Find user with matching username and password
+    const matchedUser = users.find(user => user.username === username && user.password === password);
+
+    if (!matchedUser) {
+      alert("Invalid Username or Password!");
       return false;
-    } else {
-      // Redirect to firstpage.html and pass username in URL (relative path)
-      window.location.href = "../FrontPage/firstpage.html?username=" + encodeURIComponent(username);
-      return false; // Prevent form submission
     }
+
+    // Store logged-in user info in sessionStorage
+    sessionStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
+
+    alert("Login successful!");
+    window.location.href = "../FrontPage/firstpage.html?username=" + encodeURIComponent(username);
+    return false; // Prevent form submission
   }
 
   function validateAdminLogin() {

@@ -54,7 +54,48 @@
             <button class="btn btn-danger">Delete User</button>
         </div>
     </section>
+
+    <section id="users" class="dashboard-section">
+        <h2>Log In details </h2>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody id="userTable"></tbody>
+        </table>
+    </section>
+
 </main>
+<script>
+    function loadUsers() {
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const tableBody = document.getElementById('userTable');
+        tableBody.innerHTML = '';
+        users.forEach((user, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${user.username}</td>
+                <td>${user.email}</td>
+                <td><button onclick="deleteUser(${index})">Delete</button></td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function deleteUser(index) {
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        users.splice(index, 1);
+        localStorage.setItem('users', JSON.stringify(users));
+        loadUsers();
+    }
+
+
+    window.onload = loadUsers;
+</script>
 
 <!-- Footer Section -->
 <footer>
