@@ -2,92 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wedding Vendor Attire Store</title>
-  <link rel="stylesheet" href="WeddingDress.css"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-
-    .container {
-      width: 80%;
-      margin: auto;
-    }
-
-    table {
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-    }
-
-    button {
-      padding: 5px 10px;
-      margin: 5px;
-    }
-
-    .navbar {
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 10px 20px;
-    }
-
-    .navbar-brand {
-      font-weight: bold;
-      font-size: 20px;
-    }
-
-    .dropdown:hover .dropdown-menu {
-      display: block;
-      margin-top: 0;
-    }
+    body { font-family: Arial; padding: 20px; }
+    table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+    th, td { border: 1px solid #ccc; padding: 10px; }
+    img { width: 50px; }
   </style>
 </head>
 <body>
 
-<header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Wedding Vendor Attire Store</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button">
-              <button id="userButton" class="btn btn-light">Guest</button>
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="userDropdown">
-              <li><a class="dropdown-item" href="/WEBSITE/LogInPage/register.html">Edit Profile</a></li>
-              <li><a class="dropdown-item" href="#">Settings & Privacy</a></li>
-              <li><a class="dropdown-item" href="#">Help & Support</a></li>
-              <li><a class="dropdown-item" href="/WEBSITE/LogInPage/login.html">Logout</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</header>
+<nav class="navbar navbar-light bg-light mb-4">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Wedding Vendor Attire Store</a>
+    <a class="btn btn-outline-primary" href="#" onclick="accessAdmin()">Go to Admin Panel</a>
+  </div>
+</nav>
 
 <div class="container">
-  <div>
-    <input type="text" id="vendor-name" placeholder="Vendor Name">
-    <input type="text" id="dress-name" placeholder="Dress Name">
-    <input type="number" id="dress-price" placeholder="Price" min="0">
-    <input type="url" id="dress-image" placeholder="Image URL">
-    <button onclick="addDress()">Add Dress</button>
-    <select id="filter-vendor" onchange="filterByVendor()">
-      <option value="">All Vendors</option>
-    </select>
-  </div>
+  <input type="text" id="vendor-name" placeholder="Vendor Name" class="form-control mb-2">
+  <input type="text" id="dress-name" placeholder="Dress Name" class="form-control mb-2">
+  <input type="number" id="dress-price" placeholder="Price" min="0" class="form-control mb-2">
+  <input type="url" id="dress-image" placeholder="Image URL" class="form-control mb-2">
+  <button onclick="addDress()" class="btn btn-primary mb-3">Add Dress</button>
+
+  <select id="filter-vendor" onchange="filterByVendor()" class="form-select mb-3">
+    <option value="">All Vendors</option>
+  </select>
+
   <table>
     <thead>
       <tr>
@@ -98,8 +42,7 @@
         <th>Action</th>
       </tr>
     </thead>
-    <tbody id="product-table">
-    </tbody>
+    <tbody id="product-table"></tbody>
   </table>
 </div>
 
@@ -107,19 +50,21 @@
   let products = [];
 
   function addDress() {
-    let vendor = document.getElementById("vendor-name").value.trim();
-    let name = document.getElementById("dress-name").value.trim();
-    let price = parseFloat(document.getElementById("dress-price").value);
-    let image = document.getElementById("dress-image").value.trim();
+    const vendor = document.getElementById("vendor-name").value.trim();
+    const name = document.getElementById("dress-name").value.trim();
+    const price = parseFloat(document.getElementById("dress-price").value);
+    const image = document.getElementById("dress-image").value.trim();
 
     if (!vendor || !name || isNaN(price) || price <= 0 || !image) {
-      alert("Please enter valid details for the dress.");
+      alert("Please enter valid dress details.");
       return;
     }
 
     products.push({ vendor, name, price, image });
+    localStorage.setItem("products", JSON.stringify(products));
     updateVendorFilter();
     displayProducts();
+
     document.getElementById("vendor-name").value = "";
     document.getElementById("dress-name").value = "";
     document.getElementById("dress-price").value = "";
@@ -127,26 +72,30 @@
   }
 
   function displayProducts() {
-    let productTable = document.getElementById("product-table");
-    productTable.innerHTML = "";
-    let selectedVendor = document.getElementById("filter-vendor").value;
+    const table = document.getElementById("product-table");
+    table.innerHTML = "";
+    const selectedVendor = document.getElementById("filter-vendor").value;
 
-    products.filter(p => !selectedVendor || p.vendor === selectedVendor).forEach(product => {
-      let row = document.createElement("tr");
-      row.innerHTML = `
-        <td><img src="${product.image}" width="50"></td>
-        <td>${product.name}</td>
-        <td>${product.vendor}</td>
-        <td>$${product.price.toFixed(2)}</td>
-        <td><button onclick="deleteDress('${product.name}')">Delete</button></td>
-      `;
-      productTable.appendChild(row);
-    });
+    products
+      .filter(p => !selectedVendor || p.vendor === selectedVendor)
+      .forEach(product => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td><img src="${product.image}"></td>
+          <td>${product.name}</td>
+          <td>${product.vendor}</td>
+          <td>$${product.price.toFixed(2)}</td>
+          <td><button class="btn btn-sm btn-danger" onclick="deleteDress('${product.name}')">Delete</button></td>
+        `;
+        table.appendChild(row);
+      });
   }
 
   function deleteDress(name) {
-    products = products.filter(product => product.name !== name);
+    products = products.filter(p => p.name !== name);
+    localStorage.setItem("products", JSON.stringify(products));
     displayProducts();
+    updateVendorFilter();
   }
 
   function sortByPrice() {
@@ -155,31 +104,33 @@
   }
 
   function updateVendorFilter() {
-    let vendorFilter = document.getElementById("filter-vendor");
-    let vendors = [...new Set(products.map(p => p.vendor))];
-    vendorFilter.innerHTML = '<option value="">All Vendors</option>' + vendors.map(v => `<option value="${v}">${v}</option>`).join('');
+    const vendors = [...new Set(products.map(p => p.vendor))];
+    const filter = document.getElementById("filter-vendor");
+    filter.innerHTML = `<option value="">All Vendors</option>` + vendors.map(v => `<option value="${v}">${v}</option>`).join('');
   }
 
   function filterByVendor() {
     displayProducts();
   }
-</script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  // Admin login prompt
+  function accessAdmin() {
+    const username = prompt("Enter admin username:");
+    const password = prompt("Enter admin password:");
 
-<script>
-  function getQueryParam(param) {
-      const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get(param);
+    if (username === "oshadha" && password === "oshadha123") {
+      localStorage.setItem("isAdmin", "true");
+      window.location.href = "../Admin/Admin.html";
+    } else {
+      alert("Unauthorized Access. You are not allowed to enter the Admin Panel.");
+    }
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-      const username = getQueryParam("username");
-      const userButton = document.getElementById("userButton");
-      
-      if (username && userButton) {
-          userButton.textContent = username;
-      }
+  document.addEventListener("DOMContentLoaded", () => {
+    const saved = JSON.parse(localStorage.getItem("products"));
+    if (saved) products = saved;
+    updateVendorFilter();
+    displayProducts();
   });
 </script>
 
