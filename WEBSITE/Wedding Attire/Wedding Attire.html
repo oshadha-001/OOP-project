@@ -21,12 +21,16 @@
   </div>
 </nav>
 
-<div class="container">
-  <input type="text" id="vendor-name" placeholder="Vendor Name" class="form-control mb-2">
-  <input type="text" id="dress-name" placeholder="Dress Name" class="form-control mb-2">
-  <input type="number" id="dress-price" placeholder="Price" min="0" class="form-control mb-2">
-  <input type="url" id="dress-image" placeholder="Image URL" class="form-control mb-2">
-  <button onclick="addDress()" class="btn btn-primary mb-3">Add Dress</button>
+<div class="container" >
+  <form action="#" method="post">
+    <input type="text" id="vendor-name" placeholder="Vendor Name" name="vendor" class="form-control mb-2">
+    <input type="text" id="dress-name" placeholder="Dress Name" name="dress" class="form-control mb-2">
+    <input type="number" id="dress-price" placeholder="Price" name="price" min="0" class="form-control mb-2">
+    <input type="url" id="dress-image" placeholder="Image URL" name="url" class="form-control mb-2">
+    <button type="submit" onclick="addDress()" class="btn btn-primary mb-3">Add Dress</button>
+
+  </form>
+
 
   <select id="filter-vendor" onchange="filterByVendor()" class="form-select mb-3">
     <option value="">All Vendors</option>
